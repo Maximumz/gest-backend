@@ -25,5 +25,5 @@ export class Notable {
   author: string;
 
   @ManyToOne(() => User, users => users.id)
-  usersId: number;
+  userId: number;
 }

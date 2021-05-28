@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinTable
+} from 'typeorm';
 import { Notable } from '../../notables/entities/notable.entity';
 
 @Entity('users')
@@ -7,20 +13,18 @@ export class User {
   id: number;
 
   @Column()
-  name: string;
+  name?: string;
 
-  @Column()
-  email: string;
+  @Column({ unique: true })
+  email?: string;
 
   @Column()
   username: string;
 
   @Column()
-  passhash: string;
+  passhash?: string;
 
-  @Column()
-  salt: string;
-
-  @OneToMany(() => Notable, notables => notables.usersId)
-  notables: Notable[];
+  @OneToMany(() => Notable, notables => notables.userId)
+  @JoinTable()
+  notables?: Notable[];
 }
