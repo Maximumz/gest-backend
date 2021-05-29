@@ -5,3 +5,4 @@ DATABASE_PASS=password
 DATABASE_HOST=localhost
 DATABASE_USER=username
 SALT=RaNdOMsTRinG
+JWT_SECRET=SomeSecretKey
