@@ -9,6 +9,7 @@ import { Notable } from '../../notables/entities/notable.entity';
 
 @Entity('users')
 export class User {
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,7 +19,7 @@ export class User {
   @Column({ unique: true })
   email?: string;
 
-  @Column()
+  @Column({ unique: true })
   username: string;
 
   @Column()

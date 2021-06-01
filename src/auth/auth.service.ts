@@ -1,12 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Crud,
+  CrudController,
+  CrudRequest,
+  ParsedRequest,
+} from '@nestjsx/crud';
 import { User } from '../users/entities/user.entity';
+import { UsersService } from '../users/users.service';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import 'dotenv/config'
 
 @Injectable()
 export class AuthService {
 
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private jwtService: JwtService,
+    private usersService: UsersService
+  ) {}
 
   async validateUser(
     username: string,
@@ -29,12 +40,10 @@ export class AuthService {
     return null;
   }
 
-
-
-
-  /* {
-    const hash = await bcrypt.hash(password, process.env.SALT);
-
-    return await bcrypt.compare(password, hash);
-  } */
+  async login(user: any) {
+    const payload = { username: user.username, sub: user.userId };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
 }
