@@ -1,15 +1,9 @@
-import { Injectable, ConflictException } from '@nestjs/common';
-import {
-  Crud,
-  CrudController,
-  CrudRequest,
-  ParsedRequest,
-} from '@nestjsx/crud';
+import { Injectable } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import 'dotenv/config'
+import 'dotenv/config';
 
 @Injectable()
 export class AuthService {
@@ -23,8 +17,7 @@ export class AuthService {
     username: string,
     password: string
   ): Promise<Omit<User, 'password'> | null> {
-    const user = await this.usersService.findOne({ username });
-
+    const user = await this.usersService.findOne({where: {username: username}})
     if (user?.passhash == null) {
       return null;
     }

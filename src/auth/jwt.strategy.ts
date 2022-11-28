@@ -20,6 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: { sub: number }): Promise<User> {
-    return this.usersService.findOne({ id: payload.sub });
+    return this.usersService.findOne({where: { id: payload.sub }});
   }
 }

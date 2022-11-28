@@ -4,5 +4,6 @@ export class CreateUserDto {
   email: string;
   username: string;
   passhash: string;
+  access_token: string;
   notables: [];
 }

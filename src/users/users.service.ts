@@ -2,38 +2,35 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 import { Connection, Repository } from 'typeorm';
-import { AuthService } from '../auth/auth.service';
 import { User } from "./entities/user.entity";
 import { CreateUserDto } from './dto/user.create.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {
-  constructor(
-    @InjectRepository(User) repo,
-    private connection: Connection
-  ) {
+  constructor(@InjectRepository(User) repo, private connection: Connection) {
     super(repo);
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const newUser = createUserDto;
     let password: string = newUser.passhash;
-    console.log(password);
 
     /* istanbul ignore if */
     if (!newUser) {
+      // TODO: add exception error handling
       console.log(`Empty data. Nothing to save.`);
     }
 
-    const result = await this.findOne(<any>newUser);
+    const result = await this.repo.findOne(({where: <User>newUser}));
     if (result) {
+      // TODO: add exception error handling
       console.log('Attempt to save duplicate entity');
     }
 
     newUser.passhash = await this.hashPassword(newUser.passhash);
 
-    return this.repo.save<any>(newUser);
+    return this.repo.save<User>(newUser);
   }
 
   async hashPassword(password: string) {

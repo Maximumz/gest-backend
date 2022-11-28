@@ -12,7 +12,7 @@ import { User } from './users/entities/user.entity';
 import { UsersService } from './users/users.service';
 import { CreateUserDto } from './users/dto/user.create.dto';
 
-@Controller('auth')
+@Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
@@ -21,12 +21,12 @@ export class AppController {
   ) {}
 
   @UseGuards(LocalAuthGuard)
-  @Post('login')
+  @Post('preauth/login')
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
 
-  @Post('create')
+  @Post('preauth/create')
   async createOne(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.usersService.create(createUserDto);
   }

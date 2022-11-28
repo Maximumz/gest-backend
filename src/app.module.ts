@@ -22,7 +22,7 @@ import 'dotenv/config'
       password: process.env.DATABASE_PASS,
       database: process.env.DATABASE,
       entities: [User, Notable],
-      synchronize: false,
+      synchronize: true,
     }),
     UsersModule,
     NotablesModule,

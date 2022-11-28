@@ -25,6 +25,9 @@ export class User {
   @Column()
   passhash?: string;
 
+  @Column({ nullable: true})
+  access_token?: string;
+
   @OneToMany(() => Notable, notables => notables.userId)
   @JoinTable()
   notables?: Notable[];
