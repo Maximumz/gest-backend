@@ -1,10 +1,11 @@
-import { Controller, Request, Body, Get, Post, UseGuards } from '@nestjs/common';
 import {
-  Crud,
-  CrudController,
-  CrudRequest,
-  ParsedRequest,
-} from '@nestjsx/crud';
+  Controller,
+  Request,
+  Body,
+  Get,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
@@ -17,7 +18,7 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private authService: AuthService,
-    private usersService: UsersService
+    private usersService: UsersService,
   ) {}
 
   @UseGuards(LocalAuthGuard)

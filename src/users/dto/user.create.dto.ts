@@ -5,5 +5,6 @@ export class CreateUserDto {
   username: string;
   passhash: string;
   access_token: string;
+  role: string;
   notables: [];
 }

@@ -5,12 +5,12 @@ import { JwtStrategy } from './jwt.strategy';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local.strategy';
-import { UsersModule} from '../users/users.module';
+import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import 'dotenv/config';
 
 @Module({
-  providers: [AuthService, JwtStrategy, LocalStrategy ],
+  providers: [AuthService, JwtStrategy, LocalStrategy],
   imports: [
     UsersModule,
     PassportModule,
@@ -23,6 +23,6 @@ import 'dotenv/config';
     }),
   ],
   exports: [PassportModule],
-  controllers: [AuthController]
+  controllers: [AuthController],
 })
 export class AuthModule {}

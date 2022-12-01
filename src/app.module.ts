@@ -7,9 +7,10 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { NotablesModule } from './notables/notables.module';
-import { Notable} from './notables/entities/notable.entity';
+import { Notable } from './notables/entities/notable.entity';
 import { AuthModule } from './auth/auth.module';
-import 'dotenv/config'
+import { RolesGuard } from "./users/roles/roles.guard";
+import 'dotenv/config';
 
 @Module({
   imports: [
@@ -26,10 +27,10 @@ import 'dotenv/config'
     }),
     UsersModule,
     NotablesModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, RolesGuard],
 })
 export class AppModule {
   constructor(private connection: Connection) {}

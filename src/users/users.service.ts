@@ -5,6 +5,7 @@ import { Connection, Repository } from 'typeorm';
 import { User } from "./entities/user.entity";
 import { CreateUserDto } from './dto/user.create.dto';
 import * as bcrypt from 'bcrypt';
+import { Role } from './roles/role.enum';
 
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {
@@ -29,11 +30,16 @@ export class UsersService extends TypeOrmCrudService<User> {
     }
 
     newUser.passhash = await this.hashPassword(newUser.passhash);
+    newUser.role = Role.User;
 
     return this.repo.save<User>(newUser);
   }
 
   async hashPassword(password: string) {
     return await bcrypt.hash(password, 10);
+  }
+
+  update(user: User) {
+    return this.repo.update(user.id, user);
   }
 }

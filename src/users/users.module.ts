@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
-import { AuthModule } from '../auth/auth.module';
 import { AuthService } from '../auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { CreateUserDto } from './dto/user.create.dto';
-import 'dotenv/config'
+import 'dotenv/config';
 
 @Module({
   imports: [
@@ -18,9 +16,9 @@ import 'dotenv/config'
     }),
     TypeOrmModule.forFeature([User]),
     PassportModule.register({
-        defaultStrategy: 'jwt',
-        property: 'user',
-        session: true,
+      defaultStrategy: 'jwt',
+      property: 'user',
+      session: true,
     }),
   ],
   controllers: [UsersController],

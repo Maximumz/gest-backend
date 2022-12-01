@@ -25,8 +25,11 @@ export class User {
   @Column()
   passhash?: string;
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   access_token?: string;
+
+  @Column({ nullable: true })
+  role?: string;
 
   @OneToMany(() => Notable, notables => notables.userId)
   @JoinTable()
