@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from "@nestjs/typeorm";
-import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Connection, Repository } from 'typeorm';
-import { User } from "./entities/user.entity";
+import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/user.create.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from './roles/role.enum';
@@ -15,7 +15,6 @@ export class UsersService extends TypeOrmCrudService<User> {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const newUser = createUserDto;
-    let password: string = newUser.passhash;
 
     /* istanbul ignore if */
     if (!newUser) {
@@ -23,7 +22,7 @@ export class UsersService extends TypeOrmCrudService<User> {
       console.log(`Empty data. Nothing to save.`);
     }
 
-    const result = await this.repo.findOne(({where: <User>newUser}));
+    const result = await this.repo.findOne({ where: <User>newUser });
     if (result) {
       // TODO: add exception error handling
       console.log('Attempt to save duplicate entity');
@@ -39,7 +38,8 @@ export class UsersService extends TypeOrmCrudService<User> {
     return await bcrypt.hash(password, 10);
   }
 
-  update(user: User) {
-    return this.repo.update(user.id, user);
+  async update(user: User) {
+    await this.repo.update(user.id, user);
+    return await this.repo.findOne({ where: <User>user });
   }
 }

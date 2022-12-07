@@ -7,17 +7,18 @@ import 'dotenv/config';
 
 @Injectable()
 export class AuthService {
-
   constructor(
     private jwtService: JwtService,
-    private usersService: UsersService
+    private usersService: UsersService,
   ) {}
 
   async validateUser(
     username: string,
-    password: string
+    password: string,
   ): Promise<Omit<User, 'password'> | null> {
-    const user = await this.usersService.findOne({where: {username: username}})
+    const user = await this.usersService.findOne({
+      where: { username: username },
+    });
     if (user?.passhash == null) {
       return null;
     }
@@ -33,14 +34,19 @@ export class AuthService {
     return null;
   }
 
-  async login(user: User) {
-    const payload = { username: user.username, sub: user.id };
-    const access_token = user.access_token = this.jwtService.sign(payload);
+  async login(credentials: User) {
+    const payload = { username: credentials.username, sub: credentials.id };
+    credentials.access_token = this.jwtService.sign(payload);
 
-    this.usersService.update(user);
+    const user = await this.usersService.update(credentials);
 
-    return {
-      access_token: access_token,
-    };
+    return { user };
+  }
+
+  async logout(credentials: User) {
+    credentials.access_token = null;
+    await this.usersService.update(credentials);
+
+    return true;
   }
 }
