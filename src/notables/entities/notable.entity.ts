@@ -1,9 +1,9 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
+  PrimaryGeneratedColumn,
   CreateDateColumn,
-  ManyToOne
+  ManyToOne,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
@@ -12,7 +12,10 @@ export class Notable {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
   date: string;
 
   @Column()
@@ -24,6 +27,6 @@ export class Notable {
   @Column()
   author: string;
 
-  @ManyToOne(() => User, users => users.id)
+  @ManyToOne(() => User, (users) => users.id)
   userId: number;
 }

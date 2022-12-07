@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { Notable } from './entities/notable.entity';
 import { NotablesService } from './notables.service';
@@ -9,9 +9,9 @@ import { NotablesController } from './notables.controller';
   imports: [
     TypeOrmModule.forFeature([Notable]),
     PassportModule.register({
-        defaultStrategy: 'jwt',
-        property: 'user',
-        session: false,
+      defaultStrategy: 'jwt',
+      property: 'user',
+      session: false,
     }),
   ],
   controllers: [NotablesController],

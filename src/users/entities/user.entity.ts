@@ -3,13 +3,12 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
-  JoinTable
+  JoinTable,
 } from 'typeorm';
 import { Notable } from '../../notables/entities/notable.entity';
 
 @Entity('users')
 export class User {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -31,7 +30,7 @@ export class User {
   @Column({ nullable: true })
   role?: string;
 
-  @OneToMany(() => Notable, notables => notables.userId)
+  @OneToMany(() => Notable, (notables) => notables.userId)
   @JoinTable()
   notables?: Notable[];
 }
