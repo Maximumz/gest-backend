@@ -1,3 +1,6 @@
+<img src="./src/assets/img/gest-high-resolution-logo-black-on-white-background.png" style="max-width: 500px;">
+
+
 https://github.com/nestjsx/crud/wiki/
 
 <p align="center">
