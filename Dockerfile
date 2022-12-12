@@ -1,10 +1,12 @@
 FROM node:16
 
-WORKDIR /code
+RUN echo 'Go make yourself a coffee ☕'
 
-COPY ./package.json package.json
-COPY ./yarn.lock yarn.lock
-COPY ./.env .env
+WORKDIR /backend
+
+COPY package.json package.json
+COPY yarn.lock yarn.lock
+COPY .env .env
 
 RUN yarn install
 

@@ -1,14 +1,14 @@
-version: '3.8'
+version: '3.9'
+
 services:
   backend:
-    container_name: gest_backend
+    container_name: api
     build: ./
     ports:
       - "3000:3000"
     depends_on:
       - db
     environment:
-      NODE_ENV: dev
       DB_HOST: db
       DB_PORT: ${DATABASE_PORT}
       DB_USER: ${DATABASE_USER}
@@ -26,6 +26,18 @@ services:
       - db:database
     volumes:
       - './:/src'
+  # Requires gest-frontend in a parallel directory
+  # if you have not already run from this directory:
+  # cd .. && git clone https://github.com/Maximumz/gest-frontend
+  frontend:
+    container_name: frontend
+    build: ../gest-frontend/
+    depends_on:
+      - backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - './:/src'
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin4
@@ -33,13 +45,13 @@ services:
     ports:
       - "5050:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: gest@test.com
-      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     volumes:
       - pgadmin-data:/var/lib/pgadmin
   db:
     image: postgres
-    container_name: gest_postgres
+    container_name: db
     restart: always
     environment:
       POSTGRES_PASSWORD: ${DATABASE_PASS}
