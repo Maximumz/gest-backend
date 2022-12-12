@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  backend:
+    container_name: gest_backend
+    build: ./
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: dev
+      DB_HOST: db
+      DB_PORT: ${DATABASE_PORT}
+      DB_USER: ${DATABASE_USER}
+      DB_PASSWORD: ${DATABASE_PASS}
+      DB_NAME: ${DATABASE}
+      SALT: ${SALT}
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: ${PORT}
+      DATABASE: ${DATABASE}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_PASS: ${DATABASE_PASS}
+      DATABASE_HOST: db
+      DATABASE_USER: ${DATABASE_USER}
+    links:
+      - db:database
+    volumes:
+      - './:/src'
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: gest@test.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+  db:
+    image: postgres
+    container_name: gest_postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASS}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_DB: ${DATABASE}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+volumes:
+  db:
+    driver: local
+  pgadmin-data:
